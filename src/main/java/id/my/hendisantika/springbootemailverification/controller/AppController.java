@@ -4,6 +4,7 @@ import id.my.hendisantika.springbootemailverification.service.UserServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,4 +22,9 @@ import org.springframework.stereotype.Controller;
 public class AppController {
 
     private final UserServices userServices;
+
+    @GetMapping("")
+    public String viewHomePage() {
+        return "index";
+    }
 }
