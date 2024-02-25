@@ -10,8 +10,12 @@
     <div>
         <form method="post" th:action="@{/logout}">
             <p>
-                Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+
+            <div th:text="${'Welcome, ' + #authentication.name}">
+                The value of the "name" property of the authentication object should appear here.
+            </div>
             </p>
+
             <input type="submit" value="Sign Out"/>
         </form>
     </div>

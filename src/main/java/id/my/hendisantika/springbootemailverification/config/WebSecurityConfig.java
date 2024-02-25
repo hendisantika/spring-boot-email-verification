@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
 
@@ -55,6 +56,11 @@ public class WebSecurityConfig {
 //    }
 
     @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .requestMatchers("/users").authenticated()
@@ -66,6 +72,38 @@ public class WebSecurityConfig {
                 .permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();
+
+//        http
+//                .authorizeHttpRequests((authz) -> {
+//                            try {
+//                                authz
+//                                        .requestMatchers("/users").authenticated()
+//                                        .anyRequest().permitAll()
+//                                        .and().formLogin()
+//                                        .loginPage("/login")
+//                                        .usernameParameter("email")
+//                                        .defaultSuccessUrl("/users", true)
+//                                        .permitAll()
+//                                        .and()
+//                                        .logout()
+////                                        .logoutSuccessUrl("/").permitAll()
+//                                        .invalidateHttpSession(true)
+//                                        .clearAuthentication(true)
+//                                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+////                                        .logoutSuccessUrl("/login?logout")
+//                                        .logoutSuccessUrl("/")
+//                                        .permitAll()
+//                                        .and()
+////                                        .exceptionHandling()
+////                                        .accessDeniedHandler(accessDeniedHandler)
+//                                        .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+//                                ;
+//                            } catch (Exception e) {
+//                                throw new RuntimeException(e);
+//                            }
+//                        }
+//                );
+
         return http.build();
     }
 
