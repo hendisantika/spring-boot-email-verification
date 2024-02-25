@@ -47,4 +47,8 @@ public class User {
     private String verificationCode;
 
     private boolean enabled;
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
 }
