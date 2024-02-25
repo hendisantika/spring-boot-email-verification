@@ -2,11 +2,16 @@ package id.my.hendisantika.springbootemailverification.controller;
 
 import id.my.hendisantika.springbootemailverification.entity.User;
 import id.my.hendisantika.springbootemailverification.service.UserServices;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,5 +40,12 @@ public class AppController {
         model.addAttribute("user", new User());
 
         return "signup_form";
+    }
+
+    @PostMapping("/process_register")
+    public String processRegister(User user, HttpServletRequest request)
+            throws UnsupportedEncodingException, MessagingException {
+        userServices.register(user, getSiteURL(request));
+        return "register_success";
     }
 }
