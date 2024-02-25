@@ -1,9 +1,11 @@
 package id.my.hendisantika.springbootemailverification.controller;
 
+import id.my.hendisantika.springbootemailverification.entity.User;
 import id.my.hendisantika.springbootemailverification.service.UserServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -26,5 +28,12 @@ public class AppController {
     @GetMapping("")
     public String viewHomePage() {
         return "index";
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+
+        return "signup_form";
     }
 }
