@@ -1,8 +1,10 @@
 package id.my.hendisantika.springbootemailverification.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -21,4 +23,9 @@ import javax.sql.DataSource;
 public class WebSecurityConfig {
     @Autowired
     private DataSource dataSource;
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
+    }
 }
