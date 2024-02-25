@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -47,5 +48,13 @@ public class AppController {
             throws UnsupportedEncodingException, MessagingException {
         userServices.register(user, getSiteURL(request));
         return "register_success";
+    }
+
+    @GetMapping("/users")
+    public String listUsers(Model model) {
+        List<User> listUsers = userServices.listAll();
+        model.addAttribute("listUsers", listUsers);
+
+        return "users";
     }
 }
