@@ -2,11 +2,13 @@ package id.my.hendisantika.springbootemailverification.service;
 
 import id.my.hendisantika.springbootemailverification.entity.User;
 import id.my.hendisantika.springbootemailverification.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -31,5 +33,19 @@ public class UserServices {
 
     public List<User> listAll() {
         return userRepository.findAll();
+    }
+
+    public void register(User user, String siteURL)
+            throws UnsupportedEncodingException, MessagingException {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        String randomCode = RandomString.make(64);
+        user.setVerificationCode(randomCode);
+        user.setEnabled(false);
+
+        userRepository.save(user);
+
+        sendVerificationEmail(user, siteURL);
     }
 }
