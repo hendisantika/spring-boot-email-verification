@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -40,6 +41,7 @@ public class UserServices {
         return userRepository.findAll();
     }
 
+    @Transactional
     public void register(User user, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -55,11 +57,14 @@ public class UserServices {
         sendVerificationEmail(user, siteURL);
     }
 
+
     private void sendVerificationEmail(User user, String siteURL)
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
-        String fromAddress = "your email address";
-        String senderName = "your company name";
+//        String fromAddress = "your email address";
+//        String senderName = "your company name";
+        String fromAddress = "no-reply@jvm.my.id";
+        String senderName = "JVM INDONESIA";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
                 + "Please click the link below to verify your registration:<br>"
@@ -83,7 +88,7 @@ public class UserServices {
 
         mailSender.send(message);
 
-        System.out.println("Email has been sent");
+        log.info("Email has been sent");
     }
 
     public boolean verify(String verificationCode) {
