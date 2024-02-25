@@ -5,6 +5,7 @@ import id.my.hendisantika.springbootemailverification.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,7 @@ import java.util.List;
  * Time: 08:07
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServices {
@@ -80,5 +82,20 @@ public class UserServices {
         mailSender.send(message);
 
         System.out.println("Email has been sent");
+    }
+
+    public boolean verify(String verificationCode) {
+        User user = userRepository.findByVerificationCode(verificationCode);
+
+        if (user == null || user.isEnabled()) {
+            return false;
+        } else {
+            user.setVerificationCode(null);
+            user.setEnabled(true);
+            userRepository.save(user);
+
+            return true;
+        }
+
     }
 }
