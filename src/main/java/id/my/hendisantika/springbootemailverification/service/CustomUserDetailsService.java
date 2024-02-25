@@ -3,7 +3,7 @@ package id.my.hendisantika.springbootemailverification.service;
 import id.my.hendisantika.springbootemailverification.entity.CustomUserDetails;
 import id.my.hendisantika.springbootemailverification.entity.User;
 import id.my.hendisantika.springbootemailverification.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,10 +18,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * Time: 08:19
  * To change this template use File | Settings | File Templates.
  */
-@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepo;
+    @Autowired
+    private UserRepository userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
