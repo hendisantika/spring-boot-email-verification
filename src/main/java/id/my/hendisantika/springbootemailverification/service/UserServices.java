@@ -6,6 +6,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +45,8 @@ public class UserServices {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        String randomCode = RandomString.make(64);
+//        String randomCode = RandomString.make(64);
+        String randomCode = RandomStringUtils.randomAlphanumeric(64);
         user.setVerificationCode(randomCode);
         user.setEnabled(false);
 
