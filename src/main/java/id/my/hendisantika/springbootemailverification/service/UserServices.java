@@ -1,10 +1,13 @@
 package id.my.hendisantika.springbootemailverification.service;
 
+import id.my.hendisantika.springbootemailverification.entity.User;
 import id.my.hendisantika.springbootemailverification.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,9 +23,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServices {
 
-    private final UserRepository repo;
+    private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     private final JavaMailSender mailSender;
+
+    public List<User> listAll() {
+        return userRepository.findAll();
+    }
 }
